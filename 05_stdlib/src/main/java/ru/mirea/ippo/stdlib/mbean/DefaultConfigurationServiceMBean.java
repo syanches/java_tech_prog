@@ -79,8 +79,12 @@ final class DefaultConfigurationServiceMBean
             this.handback = handlback;
         }
 
-        void notify(Notification notification) {
-            if (filter.isNotificationEnabled(notification)) {
+        void notify(Notification notification)  {
+            if (filter != null) {
+                if (filter.isNotificationEnabled(notification)) {
+                    listener.handleNotification(notification, handback);
+                }
+            } else if (listener != null) {
                 listener.handleNotification(notification, handback);
             }
         }
